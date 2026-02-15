@@ -1,0 +1,59 @@
+PROJECT DOCUMENTATION & OPTIMIZATION REPORT
+================================================
+
+PROJECT OVERVIEW
+-----------------
+This project is a modern, high-performance landing page built with the latest web technologies. It is designed for speed, responsiveness, and a premium user experience.
+
+TECHNICAL STACK (STRENGTHS)
+---------------------------
+1.  **Framework**: Next.js 16 (App Router)
+    -   Utilizes the latest React Server Components (RSC) for optimal performance and SEO.
+    -   File-based routing (`app` directory) ensures scalable structure.
+2.  **UI Library**: React 19
+    -   Leverages the latest hooks and concurrent features.
+3.  **Styling**: Tailwind CSS v4 & PostCSS
+    -   Zero-runtime CSS generation for lightning-fast load times.
+    -   Consistent design token usage (colors, spacing) via utility classes.
+4.  **Language**: TypeScript
+    -   Ensures type safety and reduces runtime errors.
+5.  **Performance**:
+    -   `next/image`: Automatic image optimization (lazy loading, resizing, format conversion) used in Navbar and Footer.
+    -   `next/font`: Self-hosted Google Fonts (Geist) prevent layout shift (CLS).
+    -   **Framer Motion**: Smooth, hardware-accelerated animations for improved UX.
+6.  **Accessibility**:
+    -   Proper use of semantic HTML (`<nav>`, `<footer>`, `<header>`, `<main>`).
+    -   `aria-hidden` context used correctly on decorative background elements (seen in Contact page).
+
+SECURITY FIXES & OPTIMIZATIONS (RECOMMENDATIONS)
+------------------------------------------------
+To further harden the application and optimize for production, the following steps are recommended:
+
+1.  **HTTP Security Headers**:
+    -   *Current*: Default Next.js headers.
+    -   *Fix*: Configure `next.config.ts` to include headers like:
+        -   `X-Content-Type-Options: nosniff` (Prevent MIME sniffing)
+        -   `X-Frame-Options: DENY` (Prevent clickjacking)
+        -   `Referrer-Policy: strict-origin-when-cross-origin`
+        -   `Strict-Transport-Security` (HSTS) for HTTPS enforcement.
+
+2.  **Input Validation (Server-Side)**:
+    -   *Current*: Client-side HTML5 validation (`required` attributes) in `ContactForm`.
+    -   *Fix*: Implement robust server-side validation (using a library like `zod`) in the server action (`actions.ts`). Never trust client-side validation alone.
+
+3.  **Rate Limiting**:
+    -   *Risk*: The contact form could be spammed.
+    -   *Fix*: Implement rate limiting on the form submission API route or server action (e.g., using `@upstash/ratelimit` or a simple DB-based counter) to prevent abuse.
+
+4.  **Content Security Policy (CSP)**:
+    -   *Fix*: Define a strict CSP in `next.config.ts` or Middleware to control which resources (scripts, styles, images) the browser is allowed to load. This significantly mitigates Cross-Site Scripting (XSS) attacks.
+
+5.  **Global Error Handling**:
+    -   *Optimization*: Create an `error.tsx` and `global-error.tsx` file in the `app` root to gracefully handle runtime crashes and provide a custom fallback UI instead of the default 500 page.
+
+6.  **Bundle Analysis**:
+    -   *Optimization*: Use `@next/bundle-analyzer` to periodically check build sizes, ensuring `framer-motion` or other libraries aren't bloating the initial JS bundle.
+
+CONCLUSION
+----------
+The codebase is in excellent shape, using bleeding-edge technologies. The foundation is solid, modular, and performance-oriented. Implementing the security recommendations above will make it production-ready and resilient against common web threats.
