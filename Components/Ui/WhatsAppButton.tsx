@@ -6,7 +6,7 @@ export default function WhatsAppButton() {
     // Replace with actual number. Format: CountryCode + Number (e.g., 254712345678)
     // No dashes, no plus signs.
     const phoneNumber = "254769466706"
-    const message = "Hi, I&apos;m interested in your services."
+    const message = "Hi, Stewart;m interested in your services."
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
 
     return (
