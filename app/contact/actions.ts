@@ -37,21 +37,27 @@ export async function submitToGoogleSheets(formData: FormData) {
         return { success: true, message: "Message sent successfully" }
     }
 
-    const scriptURL = process.env.GOOGLE_SHEETS_WEB_APP_URL
+    // Prefer server-only env var, but fall back to a NEXT_PUBLIC value if present (useful when deploying)
+    const scriptURL = process.env.GOOGLE_SHEETS_WEB_APP_URL || process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEB_APP_URL
 
-    // Log whether the env var is present (do not log the full URL)
+    // Debug: log presence (not value) to help diagnose deployment env issues
     try {
-        console.log("DEBUG: GOOGLE_SHEETS_WEB_APP_URL present:", !!process.env.GOOGLE_SHEETS_WEB_APP_URL)
+        console.log(
+            "DEBUG: GOOGLE_SHEETS_WEB_APP_URL present:",
+            !!process.env.GOOGLE_SHEETS_WEB_APP_URL,
+            "NEXT_PUBLIC fallback:",
+            !!process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEB_APP_URL
+        )
     } catch (e) {
-        // Ignore logging errors in constrained runtimes
+        // ignore logging errors
     }
 
     if (!scriptURL) {
-        console.error("GOOGLE_SHEETS_WEB_APP_URL is not set")
+        console.error("GOOGLE_SHEETS_WEB_APP_URL (or NEXT_PUBLIC_GOOGLE_SHEETS_WEB_APP_URL) is not set")
         return {
             success: false,
             message:
-                "Server configuration error: GOOGLE_SHEETS_WEB_APP_URL is not set. Ensure .env.local or your host env vars include this key and restart the dev server.",
+                "Server configuration error: GOOGLE_SHEETS_WEB_APP_URL is not set. Add this env var (or NEXT_PUBLIC_GOOGLE_SHEETS_WEB_APP_URL) to your host and redeploy.",
         }
     }
 
