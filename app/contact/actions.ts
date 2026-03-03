@@ -39,9 +39,20 @@ export async function submitToGoogleSheets(formData: FormData) {
 
     const scriptURL = process.env.GOOGLE_SHEETS_WEB_APP_URL
 
+    // Log whether the env var is present (do not log the full URL)
+    try {
+        console.log("DEBUG: GOOGLE_SHEETS_WEB_APP_URL present:", !!process.env.GOOGLE_SHEETS_WEB_APP_URL)
+    } catch (e) {
+        // Ignore logging errors in constrained runtimes
+    }
+
     if (!scriptURL) {
         console.error("GOOGLE_SHEETS_WEB_APP_URL is not set")
-        return { success: false, message: "Server configuration error" }
+        return {
+            success: false,
+            message:
+                "Server configuration error: GOOGLE_SHEETS_WEB_APP_URL is not set. Ensure .env.local or your host env vars include this key and restart the dev server.",
+        }
     }
 
     try {
