@@ -6,7 +6,7 @@ export default function Footer() {
       <Container>
         <div className="flex flex-col md:flex-row justify-between gap-6">
           <div>
-            <h3 className="text-white font-semibold mb-2">Your Name</h3>
+            <h3 className="text-white font-semibold mb-2">Stewart 😍</h3>
             <p className="text-sm max-w-sm">
               Designer, editor, and storyteller crafting digital experiences
               that connect and convert.

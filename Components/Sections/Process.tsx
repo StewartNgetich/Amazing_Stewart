@@ -1,4 +1,4 @@
-"use client"
+  "use client"
 
 import Container from "../Ui/Container"
 import { FadeUp } from "../Ui/Motion"
